@@ -1,0 +1,24 @@
+name: CI Pipeline
+
+on: [push] # Запуск при push в репозиторий
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 # Клонирует репозиторий
+
+      - name: Установить Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Установить зависимости
+        run: npm install
+
+      - name: Прогнать ESLint
+        run: npm run lint
+
+      - name: Запустить тесты с coverage
+        run: npm test -- --coverage
